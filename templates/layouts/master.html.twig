@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}" />
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Symfony 4</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active"><a class="nav-link" href="#">Tareas
+                        <span class="sr-only">(current)</span>
+                    </a></li>
+                <li class="nav-item"><a class="nav-link" href="">Categorias</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-right">
+                <li ><a class="btn btn-outline-primary" href=""> Sign in</a></li>
+
+                <li class="dropdown">
+                    <a class="btn btn-outline-primary dropdown-toggle" href="#"
+                       role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"> <span> juanito</span></a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <form id="logoutForm" action="" method="post">
+                            <input type="hidden" name="" value="" />
+                            <button class="dropdown-item" onclick="" type="submit">Sign out</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
+
+<footer class="container">
+    <hr/>
+		<p>
+
+		</p>
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Bootstrap JS -->
+		<script src="{{ asset('/js/jquery-3.3.1.min.js') }}"></script>
+		<script src="{{ asset('/js/popper.min.js') }}"></script>
+		<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('/js/jquery-ui.min.js') }}"></script>
+	</footer>
+</body>
+</html>
