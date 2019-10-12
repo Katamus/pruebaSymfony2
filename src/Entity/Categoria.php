@@ -38,7 +38,7 @@ class Categoria
     /**
      * @var string
      *
-     * @ORM\Column(name="estado", type="string", length=45, nullable=false)
+     * @ORM\Column(name="estado", type="integer", nullable=false)
      */
     private $estado;
 
@@ -95,12 +95,12 @@ class Categoria
         return $this;
     }
 
-    public function getEstado(): ?string
+    public function getEstado(): ?int
     {
         return $this->estado;
     }
 
-    public function setEstado(string $estado): self
+    public function setEstado(int $estado): self
     {
         $this->estado = $estado;
 

@@ -1,6 +1,34 @@
 tareas:
-    path: /tareas
+    path: /
     controller: App\Controller\TareasController::index
+
+tareasCrear:
+    path: /tareas/crear
+    controller: App\Controller\TareasController::crear
+
+tareasGuardar:
+    path: /tareas/guardar
+    controller: App\Controller\TareasController::guardar
+    methods: [POST]
+
+tareasConsultar:
+    path: /tareas/consultar/{texto}
+    controller: App\Controller\TareasController::consultar
+    defaults: { texto: '' }
+
+tareasEditar:
+  path: /tareas/editar/{id}
+  controller: App\Controller\TareasController::editar
+  defaults: { id: '0' }
+
+tareasEliminar:
+  path: /tareas/eliminar/{id}
+  controller: App\Controller\TareasController::eliminar
+  defaults: { id: '0' }
+
+tareasConsulatarNombres:
+  path: /tareas/consultarNombres
+  controller: App\Controller\TareasController::consultarNombres
 
 categoriaCrear:
     path: /categoria/crear

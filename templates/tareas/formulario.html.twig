@@ -1,0 +1,35 @@
+{% extends 'layouts/master.html.twig' %}
+
+{% block body %}
+<div class="example-wrapper ">
+    <div id="formulario" name="formulario" >
+        <form action="{{ path('tareasGuardar') }}" method="post">
+        <input type="hidden" name="idtarea"  value="{% if tarea is not null  %}{{tarea.idtarea}}{% endif %}">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="nombre"  value="{% if tarea is not null  %}{{tarea.nombre}}{% endif %}" >
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripci&oacute;n</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="descripcion" >{% if tarea is not null %}{{tarea.descripcion}}{% endif %}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Lista de categorias</label>
+                <select multiple class="form-control" name="categorias[]" id="categorias" >
+                    {% if categorias|length >= 1 %}
+                        {% for categoria in categorias %}
+                            <option value="{{ categoria.idcategoria }}"
+                                {% if categoria.idcategoria in tarea.idCategorias %} selected  {%endif%}
+                            >{{ categoria.nombre }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+                <a class="btn btn-secondary" href="{{ path('tareas') }}" role="button">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -102,7 +102,8 @@ class CategoriaService
     }
 
     public function eliminarCategoria(Categoria $categoria){
-        $this->em->remove($categoria);
+        $categoria->setEstado(2);
+        $this->em->persist($categoria);
         $this->em->flush();
     }
 }

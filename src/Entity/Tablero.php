@@ -38,7 +38,7 @@ class Tablero
     /**
      * @var string|null
      *
-     * @ORM\Column(name="estado", type="string", length=45, nullable=true)
+     * @ORM\Column(name="estado", type="integer", length=45, nullable=true)
      */
     private $estado;
 
@@ -81,12 +81,12 @@ class Tablero
         return $this;
     }
 
-    public function getEstado(): ?string
+    public function getEstado(): ?int
     {
         return $this->estado;
     }
 
-    public function setEstado(?string $estado): self
+    public function setEstado(?int $estado): self
     {
         $this->estado = $estado;
 

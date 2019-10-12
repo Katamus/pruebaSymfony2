@@ -20,7 +20,7 @@ class CategoriaController extends AbstractController
     public function index()
     {
         $categoriaDao = $this->getDoctrine()->getRepository(Categoria::class);
-        $categorias = $categoriaDao->findBy( ['idusuario'=>1],['nombre'=>'ASC'] );
+        $categorias = $categoriaDao->findBy( ['idusuario'=>1,'estado'=>1],['nombre'=>'ASC'] );
 
         return $this->render('categoria/index.html.twig', [
             'title' => 'Categorias',
@@ -31,7 +31,8 @@ class CategoriaController extends AbstractController
     public function crear(){
 
         $session = new Session();
-        $categoria = new Categoria();
+        $categoria = new CategoriaDTO();
+
 
 
         foreach ($session->getFlashBag()->get('categoria', []) as $categoriaSession) {
