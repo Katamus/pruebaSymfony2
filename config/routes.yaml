@@ -1,3 +1,23 @@
 tareas:
     path: /tareas
     controller: App\Controller\TareasController::index
+
+categoriaCrear:
+    path: /categoria/crear
+    controller: App\Controller\CategoriaController::crear
+
+categoriaGuardar:
+    path: /categoria/guardar
+    controller: App\Controller\CategoriaController::guardar
+    methods: [POST]
+
+categoriaEditar:
+    path: /categoria/editar/{id}
+    controller: App\Controller\CategoriaController::editar
+    defaults: { id: '0' }
+
+categoriaEliminar:
+    path: /categoria/eliminar/{id}
+    controller: App\Controller\CategoriaController::eliminar
+    defaults: { id: '0' }
+

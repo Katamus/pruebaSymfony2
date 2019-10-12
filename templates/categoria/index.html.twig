@@ -1,13 +1,59 @@
 {% extends 'layouts/master.html.twig' %}
 
 {% block body %}
-<div class="example-wrapper">
-    <h1>Esto es el templeate sin imports css y js</h1>
+<div class="example-wrapper ">
+    <br/>
+    <h1>Categor&iacute;as</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/pruebaSymfony2/src/Controller/CategoriaController.php'|file_link(0) }}">src/Controller/CategoriaController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/pruebaSymfony2/templates/categoria/index.html.twig'|file_link(0) }}">templates/categoria/index.html.twig</a></code></li>
-    </ul>
+    {% for sussecs in app.session.flashbag().get('sussecs') %}
+        <br/>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{sussecs}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {%endfor%}
+    {% for error in app.session.flashbag().get('errors') %}
+        <br/>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{error}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {%endfor%}
+    <br/>
+    <a class="btn btn-primary" href="{{ path('categoriaCrear') }}" role="button">Crear</a>
+    <br/> <br/>
+    <table class="table table-hover ">
+        <thead class="thead-dark">
+            <tr class="thead-dark">
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripci&oacute;n</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% if categorias|length >= 1 %}
+                {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.nombre }}</td>
+                        <td>{{ categoria.descripcion }}</td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ path('categoriaEditar') }}/{{categoria.idcategoria}}" role="button">Editar</a>
+                            <a class="btn btn-danger" href="{{ path('categoriaEliminar') }}/{{categoria.idcategoria}}" onclick="return confirm('Estás seguro que quieres eliminar?')" role="button">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3"> No hay datos</td>
+                </tr>
+            {% endif %}
+
+        </tbody>
+    </table>
 </div>
 {% endblock %}

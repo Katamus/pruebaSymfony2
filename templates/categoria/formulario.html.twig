@@ -1,0 +1,32 @@
+{% extends 'layouts/master.html.twig' %}
+
+{% block body %}
+    <br/>
+    <h1>{{ title }}</h1>
+    <br/>
+    {% for errors in app.session.flashbag().get('error') %}
+        {% for  error in errors%}
+            <div class="alert alert-danger">{{error}}</div>
+        {%endfor%}
+    {%endfor%}
+
+<div class="example-wrapper ">
+    <div id="formulario" name="formulario" >
+        <form action="{{ path('categoriaGuardar') }}" method="post">
+        <input type="hidden" name="idcategoria"  value="{% if categoria is not null  %}{{categoria.idcategoria}}{% endif %}">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="nombre"  value="{% if categoria is not null  %}{{categoria.nombre}}{% endif %}" >
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripci&oacute;n</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" placeholder="descripcion" >{% if categoria is not null %}{{categoria.descripcion}}{% endif %}</textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Guardar" />
+                <a class="btn btn-secondary" href="{{ path('categoria') }}" role="button">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
