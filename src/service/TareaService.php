@@ -165,11 +165,19 @@ class TareaService
         $this->em->flush();
     }
 
-    public function consultarTareas(string $texto){
+    public function consultarTareas(string $texto=''){
         $tareaDao = $this->em->getRepository(Tarea::class);
-        $tareas = $tareaDao->findBy(['idlista'=>1,'estado'=>1]);
+        $condiciones = ['idlista'=>1,'estado'=>1];
+        $dql = "SELECT a FROM App\Entity\Tarea a WHERE a.idlista = ".$condiciones['idlista']." and a.estado = ".$condiciones['idlista'];
+        if(!empty($texto) && !is_null($texto)){
+            $dql .= " and a.nombre like '%".$texto."%'";
+        }
+        $query = $this->em->createQuery($dql);
+        $tareas = $query->execute();
+
         return $tareas;
     }
+
 
     public function obtenerDtoConsultarTareas($tareas){
 

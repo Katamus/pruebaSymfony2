@@ -14,6 +14,7 @@ function consulta() {
 }
 
 function pintarPantalla(data){
+    $("#contenidoPagina").html('');
     $.each(data, function(i, item) {
         console.log(item);
         $("#contenidoPagina").append(crearPlantilla(item));
@@ -38,14 +39,39 @@ function crearPlantilla(item){
     return plantilla;
 }
 
+function consultaPorNombre($item){
+    var url = $("#urlConsulta").val();
+    $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "json",
+        data: {
+            texto: $item
+        },
+        success: function(data) {
+            pintarPantalla(data);
+        },
+        error: function() {
+            alert('Error occured');
+        }
+    });
+}
+
+function consultaporboton(){
+    var consulta = $("#tareas").val();
+    consultaPorNombre(consulta);
+}
+
 $(document).ready(function() {
     consulta();
+    var tags = [ "c++", "java", "php", "coldfusion", "javascript", "asp", "ruby" ];
     var urlConsultarNombres = $("#urlConsultarNombres").val();
     $("#tareas").autocomplete({
         source: function( request, response ) {
             $.ajax( {
                 url: urlConsultarNombres,
                 dataType: "jsonp",
+                method: "POST",
                 data: {
                     term: request.term
                 },
@@ -56,7 +82,8 @@ $(document).ready(function() {
         },
         minLength: 1,
         select: function( event, ui ) {
-            log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+           //alert("Selected: " + ui.item.value + " aka " + ui.item.id)
+            consultaPorNombre(ui.item.label);
         }
     } );
 });

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Tarea;
 use App\Dto\TareaDto;
 use App\Dto\IdLabelValue;
@@ -20,6 +21,18 @@ class TareasController extends AbstractController
         return $this->render('tareas/index.html.twig', [
             'title' => 'Programacion de tareas',
         ]);
+    }
+
+
+    public function consultar( Request $request ){
+        $texto = $request->get('texto');
+        $em = $this->getDoctrine()->getManager();
+        $tareaservice = new TareaService($em);
+
+        $texto = is_null($texto) ? '' :  $texto;
+        $tareas = $tareaservice->consultarTareas($texto);
+        $consultaNombre = $tareaservice->obtenerDtoConsultarTareas($tareas);
+        return $this->json($consultaNombre);
     }
 
     public function crear(){
@@ -42,26 +55,32 @@ class TareasController extends AbstractController
     }
 
     public function consultarNombres(Request $request){
-        $nombre = $request->get('term');
-        $tareaRepo = $this->getDoctrine()->getRepository(Tarea::class);
-
-        $qb = $tareaRepo->createQueryBuilder('a')->
-            andWhere(" a.nombre = :nombre and  a.estado = 1 and a.idlista = 1")
-            ->setParameter('nombre','%' . $nombre . '%')
-            ->getQuery();
+        $texto = $request->get('term');
+        $callback = $request->get('callback');
+        $condiciones = ['idlista'=>1,'estado'=>1];
+        $dql = "SELECT a FROM App\Entity\Tarea a WHERE a.idlista = ".$condiciones['idlista']." and a.estado = ".$condiciones['idlista'];
+        if(!empty($texto) && !is_null($texto)){
+            $dql .= " and a.nombre like '%".$texto."%'";
+        }
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $result = $query->execute();
         $data = [];
 
-        $result = $qb->execute();
         foreach ($result as $info){
             $idlabelvalue = new IdLabelValue();
             $idlabelvalue->setId($info->getIdtarea());
             $idlabelvalue->setLablel($info->getNombre());
-            $idlabelvalue->setValue($info->getDescripcion());
+            $idlabelvalue->setValue($info->getNombre());
 
             $data[] = $idlabelvalue;
         }
+        $response = new Response();
 
-        return $this->json($data);
+        $json = $callback."(".$this->json($data)->getContent().")";
+        $response->setContent($json);
+
+        return $response;
     }
 
     public function guardar(Request $request){
@@ -157,14 +176,4 @@ class TareasController extends AbstractController
 
         return $this->redirectToRoute('tareas');
     }
-
-    public function consultar($texto){
-        $em = $this->getDoctrine()->getManager();
-        $tareaservice = new TareaService($em);
-        $tareas = $tareaservice->consultarTareas($texto);
-        $consultaNombre = $tareaservice->obtenerDtoConsultarTareas($tareas);
-        return $this->json($consultaNombre);
-    }
-
-
 }

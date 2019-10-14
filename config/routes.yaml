@@ -12,9 +12,9 @@ tareasGuardar:
     methods: [POST]
 
 tareasConsultar:
-    path: /tareas/consultar/{texto}
+    path: /tareas/consultar/
     controller: App\Controller\TareasController::consultar
-    defaults: { texto: '' }
+    methods: [POST]
 
 tareasEditar:
   path: /tareas/editar/{id}
@@ -29,6 +29,7 @@ tareasEliminar:
 tareasConsulatarNombres:
   path: /tareas/consultarNombres
   controller: App\Controller\TareasController::consultarNombres
+  methods: [POST]
 
 categoriaCrear:
     path: /categoria/crear
