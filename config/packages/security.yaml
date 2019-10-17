@@ -1,13 +1,30 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\Usuario:
+            algorithm: bcrypt
+            cost: 4
+
     providers:
         in_memory: { memory: null }
+        proveedor:
+            entity:
+                class: App\Entity\Usuario
+                property: nombreusuario
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            form_login:
+                login_path: login
+                check_path: login
+                provider: proveedor
+
+            logout:
+                path: /logout
+                target: /login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

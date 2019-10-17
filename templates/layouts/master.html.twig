@@ -17,27 +17,34 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
+                {% if app.user %}
                 <li class="nav-item active"><a class="nav-link" href="{{ path('tareas') }}">Tareas
                         <span class="sr-only">(current)</span>
                     </a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ path('categoria') }}">Categorias</a>
                 </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('usuarios') }}">Crear Usuario</a>
+                    </li>
+                {% endif %}
             </ul>
-            <ul class="navbar-nav navbar-right">
-                <li ><a class="btn btn-outline-primary" href=""> Sign in</a></li>
 
+            <ul class="navbar-nav navbar-right">
+
+
+                {% if app.user %}
                 <li class="dropdown">
-                    <a class="btn btn-outline-primary dropdown-toggle" href="#"
-                       role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                       aria-haspopup="true" aria-expanded="false"> <span> juanito</span></a>
+                    <a class="btn btn-outline-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span> {{ app.user.nombreusuario }}</span>
+                    </a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <form id="logoutForm" action="" method="post">
-                            <input type="hidden" name="" value="" />
-                            <button class="dropdown-item" onclick="" type="submit">Sign out</button>
-                        </form>
+                        <a class="dropdown-item btn btn-outline-primary" href="{{  path('logout') }}"> Sign in</a>
                     </div>
                 </li>
+                {% else %}
+                    <li ><a class="btn btn-outline-primary" href="{{  path('login') }}"> Sign in</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
